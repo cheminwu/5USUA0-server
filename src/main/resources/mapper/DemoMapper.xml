@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="tue.student.iot.group18.dao.DemoMapper">
+    <resultMap id="DemoMap" type="tue.student.iot.group18.module.Demo">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="flag" property="flag" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="find" parameterType="String" resultMap="DemoMap">
+        SELECT *
+        FROM demo
+        WHERE 1 = 1
+        <if test="code != null">AND code = #{code}</if>
+        <if test="code != null">AND flag = #{flag}</if>
+    </select>
+
+    <insert id="save" parameterType="tue.student.iot.group18.module.Demo">
+        INSERT INTO demo(code, flag)
+        VALUES (#{code}, #{flag})
+    </insert>
+
+    <select id="get" parameterType="String" resultMap="DemoMap">
+        select *
+        FROM demo
+        WHERE code = #{code}
+    </select>
+
+    <update id="update" parameterType="tue.student.iot.group18.module.Demo">
+        UPDATE demo
+        SET flag = #{flag}
+        WHERE code = #{code}
+    </update>
+</mapper>
