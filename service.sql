@@ -1,28 +1,39 @@
 create table user_info
 (
-    id   int auto_increment
+    User_id   int auto_increment
         primary key,
-    name varchar(20) not null,
-    birthday varchar(20) not null,
-    gender int not null
+    First_name varchar(20) not null,
+    Last_Name varchar(20) not null,
+    Email varchar(50) not null,
 );
 
 create table locker_info
 (
-    id   int auto_increment
+    Locker_id   int auto_increment
         primary key,
-    cabinet_id int not null,
-    item varchar(20) not null
+    Location varchar(20) not null,
+    Status boolean not null
 );
 
-
-
-create table locker_user_map
+create table Equipment_info
 (
-    id   int auto_increment
+    Equipment_id   int auto_increment
         primary key,
-    locker_id int not null,
-    user_id int not null
+    Name varchar(20) not null,
+    IsAvailable boolean not null
 );
 
+create table Sports
+(
+    Sport_id  int auto_increment
+            primary key,
+    Description varchar(50) not null,
+);
 
+create table Transactions
+(
+    Transaction_id    int auto_increment
+            primary key,
+    Date_Time int not null,
+    Type varchar(20) not null,
+);
