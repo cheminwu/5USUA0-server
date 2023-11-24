@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import tue.student.iot.group18.gym2go.Util;
 import tue.student.iot.group18.module.Demo;
 import tue.student.iot.group18.service.DemoService;
 
@@ -62,5 +63,34 @@ public class DemoController {
         response.put("code", 0);
         response.put("data", demo);
         return JSON.toJSONString(response);
+    }
+
+
+
+    @GetMapping(
+            value = "/qr_request.get",
+            produces = "text/plain")
+    @ResponseBody
+    public String qr(
+            @RequestParam Integer user_id, @RequestParam Integer locker_id, @RequestParam Integer flag) {
+
+        String returnStr = user_id.toString() + ", " + locker_id.toString() + ", " + flag.toString() + ", " + Util.currentTime();
+
+        return Util.getMD5Str(returnStr);
+
+    }
+
+
+    @GetMapping(
+            value = "/user_history_request.get",
+            produces = "text/plain")
+    @ResponseBody
+    public String userHistory(
+            @RequestParam Integer user_id) {
+
+        String returnStr = "football,001,renting,2023-11-11 08:30,-|football,001,returned,2023-11-01 17:32,2023-11-08 13:32|football,001,returned,2023-10-01 17:32,2023-10-08 13:32";
+
+        return returnStr;
+
     }
 }
