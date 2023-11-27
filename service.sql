@@ -15,8 +15,8 @@ CREATE TABLE `locker_info` (
 CREATE TABLE `Equipment_info` (
   `Equipment_id` int PRIMARY KEY AUTO_INCREMENT,
   `Name` varchar(20) NOT NULL,
-  `IsAvailable` boolean NOT NULL
-  `Locker_id` int
+  `IsAvailable` boolean NOT NULL,
+  `Locker_id` int,
   `Sport_id` int
 );
 
