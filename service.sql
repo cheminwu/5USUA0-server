@@ -28,7 +28,7 @@ CREATE TABLE `Transactions` (
   `Type` varchar(20) NOT NULL
 );
 
-ALTER TABLE `Transactions` ADD CONSTRAINT `Rent` FOREIGN KEY (`Transaction_id`) REFERENCES `user_info` (`User_id`);
+ALTER TABLE `Transactions` ADD FOREIGN KEY (`Transaction_id`) REFERENCES `user_info` (`User_id`);
 
 ALTER TABLE `locker_info` ADD FOREIGN KEY (`Locker_id`) REFERENCES `Transactions` (`Transaction_id`);
 
