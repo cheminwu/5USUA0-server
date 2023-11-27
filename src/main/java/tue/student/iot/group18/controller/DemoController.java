@@ -108,7 +108,6 @@ public class DemoController {
         return JSON.toJSONString(response_0);
     }
 
-
     @PostMapping(
             value = "/defect_report.post",
             consumes = "application/json",
