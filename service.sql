@@ -2,7 +2,8 @@ CREATE TABLE `user_info` (
   `User_id` int PRIMARY KEY AUTO_INCREMENT,
   `First_name` varchar(20) NOT NULL,
   `Last_Name` varchar(20) NOT NULL,
-  `Email` varchar(50) NOT NULL
+  `Email` varchar(50) NOT NULL,
+  `Serial_number` int NOT NULL
 );
 
 CREATE TABLE `locker_info` (
