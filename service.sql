@@ -15,6 +15,8 @@ CREATE TABLE `Equipment_info` (
   `Equipment_id` int PRIMARY KEY AUTO_INCREMENT,
   `Name` varchar(20) NOT NULL,
   `IsAvailable` boolean NOT NULL
+  `Locker_id` int
+  `Sport_id` int
 );
 
 CREATE TABLE `Sports` (
@@ -26,17 +28,18 @@ CREATE TABLE `Transactions` (
   `Transaction_id` int PRIMARY KEY AUTO_INCREMENT,
   `Date_Time` int NOT NULL,
   `Type` varchar(20) NOT NULL,
-  `User_id` int
-
+  `User_id` int,
+  `Equipment_id` int,
+  `Locker_id` int
 );
 
 ALTER TABLE `Transactions` ADD FOREIGN KEY (`User_id`) REFERENCES `user_info` (`User_id`);
 
-ALTER TABLE `locker_info` ADD FOREIGN KEY (`Locker_id`) REFERENCES `Transactions` (`Transaction_id`);
+ALTER TABLE `Transactions` ADD FOREIGN KEY (`Locker_id`) REFERENCES `locker_info` (`Locker_id`);
 
-ALTER TABLE `Equipment_info` ADD FOREIGN KEY (`Equipment_id`) REFERENCES `Transactions` (`Transaction_id`);
+ALTER TABLE `Transactions` ADD FOREIGN KEY (`Equipment_id`) REFERENCES `Equipment_info` (`Equipment_id`);
 
-ALTER TABLE `Equipment_info` ADD FOREIGN KEY (`Equipment_id`) REFERENCES `locker_info` (`Locker_id`);
+ALTER TABLE `Equipment_info` ADD FOREIGN KEY (`Locker_id`) REFERENCES `locker_info` (`Locker_id`);
 
-ALTER TABLE `Equipment_info` ADD FOREIGN KEY (`Equipment_id`) REFERENCES `Sports` (`Sport_id`);
+ALTER TABLE `Equipment_info` ADD FOREIGN KEY (`Sport_id`) REFERENCES `Sports` (`Sport_id`);
 
