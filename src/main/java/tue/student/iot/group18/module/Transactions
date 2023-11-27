@@ -1,0 +1,53 @@
+package tue.student.iot.group18.module;
+
+public class Transactions {
+    private Integer TransactionId;
+    private Date Date_time;
+    private String Type;
+    private Integer UserId;
+    private Integer EquipmentId;
+    private Integer LockerId;
+
+    public Transactions(Integer TransactionId, Date Date_time, String Type, Integer UserId, Integer EquipmentId, Integer LockerId) {
+        this.TransactionId = TransactionId;
+        this.Date_time = Date_time;
+        this.Type = Type;
+        this.UserId = UserId;
+        this.EquipmentId = EquipmentId;
+        this.LockerId = LockerId;
+    }
+
+    public Integer getTransactionId {
+        return TransactionId;
+    }
+
+    public Date getDate_time {
+        return Date_time;
+    }
+
+    public String getType {
+        return Type;
+    }
+
+    public Integer getUserId {
+        return UserId;
+    }
+
+    public Integer getEquipmentId {
+        return EquipmentId;
+    }
+
+    public Integer getLockerId {
+        return LockerId;
+    }
+
+    public void setTransactionID (Integer TransactionId) {
+        this.TransactionId = TransactionId;
+    }
+
+    public void setDate_time (Date Date_time) {
+        this.Date_time = Date_time;
+    }
+
+    
+}

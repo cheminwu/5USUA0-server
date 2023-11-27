@@ -1,0 +1,57 @@
+package tue.student.iot.group18.module;
+
+public class EquipmentInfo {
+    private Integer EquipmentId;
+    private String EquipmentName;
+    private Boolean IsAvailable;
+    private Integer LockerId;
+    private Integer SportId;
+    
+    public EquipmentInfo(Integer EquipmentId, String EquipmentName, Boolean IsAvailable, Integer LockerId, Integer SportId) {
+        this.EquipmentId = EquipmentId;
+        this.EquipmentName = EquipmentName;
+        this.IsAvailable = IsAvailable;
+        this.LockerId = LockerId;
+        this.SportId = SportId;
+    }
+
+    public Integer getEquipmentId() {
+        return EquipmentId;
+    }
+
+    public String getEquipmentName() {
+        return EquipmentName;
+    }
+
+    public Boolean getIsAvailable() {
+        return IsAvailable;
+    }
+
+    public Integer getLockerId() {
+        return LockerId;
+    }
+
+    public Integer getSportId() {
+        return SportId;
+    }
+
+    public void setEquipmentId(Integer EquipmentId) {
+        this.EquipmentId = EquipmentId;
+    }
+
+    public void setEquipmnetName(String EquipmentName) {
+        this.EquipmnetName = EquipmentName;
+    }
+
+    public void setIsAvailable(Boolean IsAvailable) {
+        this.IsAvailable = IsAvailable;
+    }
+
+    public void setLockerId(Integer LockerId) {
+        this.LockerId = LockerId;
+    }
+
+    public void setSportId(Integer SportId) {
+        this.SportId = SportId;
+    }
+}

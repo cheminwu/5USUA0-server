@@ -1,0 +1,29 @@
+package tue.student.iot.group18.module;
+
+
+public class Sports {
+    private Integer SportId;
+    private String Description;
+
+
+    public Sports(String sportId, String Description) {
+        this.SportId = sportId;
+        this.Description = Description;
+    }
+
+    public Interger getSportId() {
+        return SportId;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setSportId(String sportId) {
+        this.SportId = sportId;
+    }
+
+    public void setDescription(String description) {
+        this.Description = description;
+    }
+}
