@@ -27,7 +27,7 @@ CREATE TABLE `Sports` (
 
 CREATE TABLE `Transactions` (
   `Transaction_id` int PRIMARY KEY AUTO_INCREMENT,
-  `Date_Time` int NOT NULL,
+  `Date_Time` DATETIME NOT NULL,
   `Type` varchar(20) NOT NULL,
   `User_id` int,
   `Equipment_id` int,
