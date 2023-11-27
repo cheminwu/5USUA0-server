@@ -25,10 +25,12 @@ CREATE TABLE `Sports` (
 CREATE TABLE `Transactions` (
   `Transaction_id` int PRIMARY KEY AUTO_INCREMENT,
   `Date_Time` int NOT NULL,
-  `Type` varchar(20) NOT NULL
+  `Type` varchar(20) NOT NULL,
+  `User_id` int
+
 );
 
-ALTER TABLE `Transactions` ADD FOREIGN KEY (`Transaction_id`) REFERENCES `user_info` (`User_id`);
+ALTER TABLE `Transactions` ADD FOREIGN KEY (`User_id`) REFERENCES `user_info` (`User_id`);
 
 ALTER TABLE `locker_info` ADD FOREIGN KEY (`Locker_id`) REFERENCES `Transactions` (`Transaction_id`);
 
