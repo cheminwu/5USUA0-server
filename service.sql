@@ -1,86 +1,40 @@
-create table user_info
-(
-    User_id   int auto_increment
-        primary key,
-    First_name varchar(20) not null,
-    Last_Name varchar(20) not null,
-    Email varchar(50) not null,
+CREATE TABLE `user_info` (
+  `User_id` int PRIMARY KEY AUTO_INCREMENT,
+  `First_name` varchar(20) NOT NULL,
+  `Last_Name` varchar(20) NOT NULL,
+  `Email` varchar(50) NOT NULL
 );
 
-create table locker_info
-(
-    Locker_id   int auto_increment
-        primary key,
-    Location varchar(20) not null,
-    Status boolean not null
-    Transaction_id int unique 
-    Foreign key (Transaction_id) references Transactions(Transaction_id)
+CREATE TABLE `locker_info` (
+  `Locker_id` int PRIMARY KEY AUTO_INCREMENT,
+  `Location` varchar(20) NOT NULL,
+  `Status` boolean NOT NULL
 );
 
-create table Equipment_info
-(
-    Equipment_id   int auto_increment
-        primary key,
-    Name varchar(20) not null,
-    IsAvailable boolean not null
-    Transaction_id int unique 
-    Foreign key (Transaction_id) references Transactions(Transaction_id)
-    Foreign key (Equipment_id) references Equipment_info(Equipment_id) 
-    Foreign key (Sport_id) references Sports(Sport_id) 
+CREATE TABLE `Equipment_info` (
+  `Equipment_id` int PRIMARY KEY AUTO_INCREMENT,
+  `Name` varchar(20) NOT NULL,
+  `IsAvailable` boolean NOT NULL
 );
 
-create table Sports
-(
-    Sport_id  int auto_increment
-        primary key,
-    Description varchar(50) not null,
+CREATE TABLE `Sports` (
+  `Sport_id` int PRIMARY KEY AUTO_INCREMENT,
+  `Description` varchar(50) NOT NULL
 );
 
-create table Transactions
-(
-    Transaction_id    int auto_increment
-        primary key,
-    Date_Time int not null,
-    Type varchar(20) not null 
-    Foreign key (User_id) references user_info(User_id) 
+CREATE TABLE `Transactions` (
+  `Transaction_id` int PRIMARY KEY AUTO_INCREMENT,
+  `Date_Time` int NOT NULL,
+  `Type` varchar(20) NOT NULL
 );
 
+ALTER TABLE `Transactions` ADD CONSTRAINT `Rent` FOREIGN KEY (`Transaction_id`) REFERENCES `user_info` (`User_id`);
 
-//TO MAKE DIAGRAM IN https://dbdiagram.io/ USE THE CODE BELOW
-*/
-Table "user_info" {
-  "User_id" int [pk, increment]
-  "First_name" varchar(20) [not null]
-  "Last_Name" varchar(20) [not null]
-  "Email" varchar(50) [not null]
-}
+ALTER TABLE `locker_info` ADD FOREIGN KEY (`Locker_id`) REFERENCES `Transactions` (`Transaction_id`);
 
-Table "locker_info" {
-  "Locker_id" int [pk, increment]
-  "Location" varchar(20) [not null]
-  "Status" boolean [not null]
-}
+ALTER TABLE `Equipment_info` ADD FOREIGN KEY (`Equipment_id`) REFERENCES `Transactions` (`Transaction_id`);
 
-Table "Equipment_info" {
-  "Equipment_id" int [pk, increment]
-  "Name" varchar(20) [not null]
-  "IsAvailable" boolean [not null]
-}
+ALTER TABLE `Equipment_info` ADD FOREIGN KEY (`Equipment_id`) REFERENCES `locker_info` (`Locker_id`);
 
-Table "Sports" {
-  "Sport_id" int [pk, increment]
-  "Description" varchar(50) [not null]
-}
+ALTER TABLE `Equipment_info` ADD FOREIGN KEY (`Equipment_id`) REFERENCES `Sports` (`Sport_id`);
 
-Table "Transactions" {
-  "Transaction_id" int [pk, increment]
-  "Date_Time" int [not null]
-  "Type" varchar(20) [not null]
-}
-
-Ref: Transactions.Transaction_id > user_info.User_id 
-Ref: Transactions.Transaction_id - locker_info.Locker_id
-Ref: Transactions.Transaction_id - Equipment_info.Equipment_id
-Ref: locker_info.Locker_id < Equipment_info.Equipment_id
-Ref: Equipment_info.Equipment_id > Sports.Sport_id
-/*
