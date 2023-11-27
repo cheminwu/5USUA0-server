@@ -93,4 +93,31 @@ public class DemoController {
         return returnStr;
 
     }
+
+
+    @PostMapping(
+            value = "/user_login.post",
+            consumes = "application/json",
+            produces = "application/json")
+    @ResponseBody
+    public String userLogin(@RequestBody Map params) {
+        Object code = params.get("code");
+        Object flag = params.get("flag");
+        demoService.save(new Demo((String)code, (String)flag));
+        System.out.println("info was delivered");
+        return JSON.toJSONString(response_0);
+    }
+
+    @PostMapping(
+            value = "/defect_report.post",
+            consumes = "application/json",
+            produces = "application/json")
+    @ResponseBody
+    public String defectReport(@RequestBody Map params) {
+        Object code = params.get("code");
+        Object flag = params.get("flag");
+        demoService.save(new Demo((String)code, (String)flag));
+        System.out.println("report was delivered");
+        return JSON.toJSONString(response_0);
+    }
 }
