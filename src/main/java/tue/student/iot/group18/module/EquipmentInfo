@@ -40,7 +40,7 @@ public class EquipmentInfo {
     }
 
     public void setEquipmnetName(String EquipmentName) {
-        this.EquipmnetName = EquipmentName;
+        this.EquipmentName = EquipmentName;
     }
 
     public void setIsAvailable(Boolean IsAvailable) {

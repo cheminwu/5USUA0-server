@@ -6,12 +6,12 @@ public class Sports {
     private String Description;
 
 
-    public Sports(String sportId, String Description) {
+    public Sports(Integer sportId, String Description) {
         this.SportId = sportId;
         this.Description = Description;
     }
 
-    public Interger getSportId() {
+    public Integer getSportId() {
         return SportId;
     }
 
@@ -19,7 +19,7 @@ public class Sports {
         return Description;
     }
 
-    public void setSportId(String sportId) {
+    public void setSportId(Integer sportId) {
         this.SportId = sportId;
     }
 
