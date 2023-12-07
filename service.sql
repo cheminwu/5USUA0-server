@@ -3,7 +3,8 @@ CREATE TABLE `user_info` (
   `First_name` varchar(20) NOT NULL,
   `Last_Name` varchar(20) NOT NULL,
   `Email` varchar(50) NOT NULL,
-  `Serial_number` int NOT NULL
+  `Serial_number` varchar(20) NOT NULL,
+  `password_SHA` varchar(200) NOT NULL
 );
 
 CREATE TABLE `locker_info` (
