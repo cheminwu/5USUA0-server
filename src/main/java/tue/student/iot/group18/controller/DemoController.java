@@ -6,10 +6,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import tue.student.iot.group18.gym2go.Util;
 import tue.student.iot.group18.module.Demo;
+import tue.student.iot.group18.module.UserInfo;
 import tue.student.iot.group18.service.DemoService;
+import tue.student.iot.group18.service.ED25519;
+import tue.student.iot.group18.service.UserInfoService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping(value = "demo")
@@ -21,6 +26,12 @@ public class DemoController {
 
     @Autowired
     DemoService demoService;
+
+    @Autowired
+    ED25519 ed25519;
+
+    @Autowired
+    UserInfoService userInfoService;
 
     final Map response_0 = new HashMap();
 
@@ -76,6 +87,9 @@ public class DemoController {
 
         String returnStr = user_id.toString() + ", " + locker_id.toString() + ", " + flag.toString() + ", " + Util.currentTime();
 
+
+        String sign = ed25519.sign(returnStr);
+        returnStr = returnStr + ", " + sign;
         return Util.getMD5Str(returnStr);
 
     }
@@ -101,12 +115,38 @@ public class DemoController {
             produces = "application/json")
     @ResponseBody
     public String userLogin(@RequestBody Map params) {
-        Object code = params.get("code");
-        Object flag = params.get("flag");
-        demoService.save(new Demo((String)code, (String)flag));
+        Object serialNumber = params.get("serialNumber");
+        Object passwordSHA = params.get("passwordSHA");
+        Map map = new HashMap<>();
+        map.put("SerialNumber", (String)serialNumber);
+        map.put("passwordSHA", (String)passwordSHA);
+        List<UserInfo> users = userInfoService.list(map);
+        if(users != null && users.size() > 0){
+            return (String)serialNumber;
+        }else{
+            return "-1";
+        }
+    }
+
+
+    @PostMapping(
+            value = "/user_register.post",
+            consumes = "application/json",
+            produces = "application/json")
+    @ResponseBody
+    public String userRegister(@RequestBody Map params) {
+        Object serialNumber = params.get("serialNumber");
+        Object firstName = params.get("firstName");
+        Object lastName = params.get("lastName");
+        Object email = params.get("email");
+        Object passwordSHA = params.get("passwordSHA");
+
+        userInfoService.save(new UserInfo((String)firstName, (String)lastName, (String)email, (String)serialNumber, (String)passwordSHA));
         System.out.println("info was delivered");
         return JSON.toJSONString(response_0);
     }
+
+
 
     @PostMapping(
             value = "/defect_report.post",

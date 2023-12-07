@@ -26,7 +26,7 @@ public class Util {
 
 
     public static String currentTime(){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return df.format(new Date());
     }
 

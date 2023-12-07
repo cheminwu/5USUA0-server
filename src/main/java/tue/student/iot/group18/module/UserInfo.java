@@ -6,12 +6,15 @@ public class UserInfo {
     private String LastName;
     private String Email;
     private String SerialNumber;
+    private String passwordSHA;
 
-    public UserInfo(String firstName, String lastName, String email, String serialNumber) {
+
+    public UserInfo(String firstName, String lastName, String email, String serialNumber, String passwordSHA) {
         this.FirstName = firstName;
         this.LastName = lastName;
         this.Email = email;
         this.SerialNumber = serialNumber;
+        this.passwordSHA = passwordSHA;
     }
 
     public Integer getUserId () {
@@ -52,5 +55,13 @@ public class UserInfo {
 
     public void setSerialNumber(String serialNumber) {
         SerialNumber = serialNumber;
+    }
+
+    public String getPasswordSHA() {
+        return passwordSHA;
+    }
+
+    public void setPasswordSHA(String passwordSHA) {
+        this.passwordSHA = passwordSHA;
     }
 }

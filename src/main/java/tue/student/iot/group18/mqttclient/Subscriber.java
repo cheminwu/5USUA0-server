@@ -1,36 +1,33 @@
 package tue.student.iot.group18.mqttclient;
 
 import org.eclipse.paho.client.mqttv3.IMqttClient;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tue.student.iot.group18.service.ED25519;
 
 import javax.annotation.PostConstruct;
-import java.util.UUID;
 
 @Service
 public class Subscriber {
 
+    @Autowired
+    ED25519 ed25519;
+
+    @Autowired
+    Publisher publisher;
+
     @PostConstruct
-    public void start() {
+    public void subscribe() {
         try{
-            String subscriberId = UUID.randomUUID().toString();
-            IMqttClient subscriber = new MqttClient("tcp://192.236.146.36:1883",subscriberId);
-
-            MqttConnectOptions options = new MqttConnectOptions();
-            options.setAutomaticReconnect(true);
-            options.setCleanSession(true);
-            options.setConnectionTimeout(10);
-            options.setUserName("guest_mqtt");
-            options.setPassword("gym2go18".toCharArray());
-            subscriber.connect(options);
-
-
-            subscriber.subscribe("public_key", (topic, msg) -> {
-                System.out.println(msg);
-            });
+            IMqttClient subscriber = Client.getClient();
             subscriber.subscribe("history", (topic, msg) -> {
                 System.out.println(msg);
+            });
+            subscriber.subscribe("start", (topic, msg) -> {
+                System.out.println(msg);
+
+                String hexPublicKey = ed25519.getHexPublicKey();
+                publisher.publish("publicKey", hexPublicKey);
             });
         }catch (Exception e){
             e.printStackTrace();
