@@ -85,12 +85,13 @@ public class DemoController {
     public String qr(
             @RequestParam Integer user_id, @RequestParam Integer locker_id, @RequestParam Integer flag) {
 
-        String returnStr = user_id.toString() + ", " + locker_id.toString() + ", " + flag.toString() + ", " + Util.currentTime();
-
-
-        String sign = ed25519.sign(returnStr);
-        returnStr = returnStr + ", " + sign;
-        return Util.getMD5Str(returnStr);
+        String info = user_id.toString() + ", " + locker_id.toString() + ", " + flag.toString() + ", " + Util.currentTime();
+        String sign = ed25519.sign(info);
+        Map map = new HashMap<>();
+        map.put("info", info);
+        map.put("sign",sign);
+        String returnStr = JSON.toJSONString(map);;
+        return returnStr;
 
     }
 
@@ -122,7 +123,7 @@ public class DemoController {
         map.put("passwordSHA", (String)passwordSHA);
         List<UserInfo> users = userInfoService.list(map);
         if(users != null && users.size() > 0){
-            return (String)serialNumber;
+            return "0";
         }else{
             return "-1";
         }
@@ -141,9 +142,17 @@ public class DemoController {
         Object email = params.get("email");
         Object passwordSHA = params.get("passwordSHA");
 
-        userInfoService.save(new UserInfo((String)firstName, (String)lastName, (String)email, (String)serialNumber, (String)passwordSHA));
-        System.out.println("info was delivered");
-        return JSON.toJSONString(response_0);
+        Map map = new HashMap<>();
+        map.put("SerialNumber", (String)serialNumber);
+
+        List<UserInfo> users = userInfoService.list(map);
+        if(users != null && users.size() > 0){
+            return "-1";
+        }else{
+            userInfoService.save(new UserInfo((String)firstName, (String)lastName, (String)email, (String)serialNumber, (String)passwordSHA));
+            System.out.println("info was delivered");
+            return "0";
+        }
     }
 
 

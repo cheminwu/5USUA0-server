@@ -27,6 +27,7 @@ public class Subscriber {
                 System.out.println(msg);
 
                 String hexPublicKey = ed25519.getHexPublicKey();
+                System.out.println("post public key: " + hexPublicKey);
                 publisher.publish("publicKey", hexPublicKey);
             });
         }catch (Exception e){
