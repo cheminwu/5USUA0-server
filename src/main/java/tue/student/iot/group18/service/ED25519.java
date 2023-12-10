@@ -9,6 +9,7 @@ import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
 import org.bouncycastle.crypto.signers.Ed25519Signer;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.stereotype.Service;
+import tue.student.iot.group18.gym2go.Util;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -39,14 +40,9 @@ public class ED25519 {
             privateKey = (Ed25519PrivateKeyParameters) asymmetricCipherKeyPair.getPrivate();
             publicKey = (Ed25519PublicKeyParameters) asymmetricCipherKeyPair.getPublic();
 
-            System.out.print("public key code: ");
-            int unsigned_pk[] = new int[32];
+            int unsigned_pk[] = Util.toUnsignedByte(publicKey.getEncoded());
 
-            for(int i = 0;i<32;i++){
-                unsigned_pk[i] = Byte.toUnsignedInt(publicKey.getEncoded()[i]);
-                System.out.print(unsigned_pk[i] + ", ");
-            }
-            hexPublicKey = intToHex(unsigned_pk);
+            hexPublicKey = Util.intToHex(unsigned_pk);
             System.out.println();
             System.out.println("public key: " + hexPublicKey);
 
@@ -65,6 +61,9 @@ public class ED25519 {
 
     public String sign(String message){
         try {
+            if(hexPublicKey == null || privateKey == null){
+                generateKeypair();
+            }
             // the message
             byte[] m = message.getBytes(StandardCharsets.UTF_8);
             // create the signature
@@ -79,8 +78,8 @@ public class ED25519 {
                 System.out.print(unsigned_sign[i] + ", ");
             }
             System.out.println();
-            String hexSign = intToHex(unsigned_sign);
-            System.out.println("signature: " + intToHex(unsigned_sign));
+            String hexSign = Util.intToHex(unsigned_sign);
+            System.out.println("signature: " + Util.intToHex(unsigned_sign));
 
             // verify the signature
             Signer verifier = new Ed25519Signer();
@@ -93,17 +92,6 @@ public class ED25519 {
             e.printStackTrace();
             return null;
         }
-    }
-
-    private final static char[] hexArray = "0123456789abcdef".toCharArray();
-    public static String intToHex(int[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
     }
 
 

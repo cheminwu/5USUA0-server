@@ -8,13 +8,14 @@ import tue.student.iot.group18.gym2go.Util;
 import tue.student.iot.group18.module.Demo;
 import tue.student.iot.group18.module.UserInfo;
 import tue.student.iot.group18.service.DemoService;
-import tue.student.iot.group18.service.ED25519;
+import tue.student.iot.group18.service.MD5;
 import tue.student.iot.group18.service.UserInfoService;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 @RequestMapping(value = "demo")
@@ -28,7 +29,7 @@ public class DemoController {
     DemoService demoService;
 
     @Autowired
-    ED25519 ed25519;
+    MD5 md5;
 
     @Autowired
     UserInfoService userInfoService;
@@ -85,13 +86,24 @@ public class DemoController {
     public String qr(
             @RequestParam Integer user_id, @RequestParam Integer locker_id, @RequestParam Integer flag) {
 
-        String info = user_id.toString() + ", " + locker_id.toString() + ", " + flag.toString() + ", " + Util.currentTime();
-        String sign = ed25519.sign(info);
-        Map map = new HashMap<>();
-        map.put("info", info);
-        map.put("sign",sign);
-        String returnStr = JSON.toJSONString(map);;
-        return returnStr;
+        long currentSeconds = Math.round(((double)Util.currentTime())/1000);
+        String info = user_id + "," + locker_id.toString() + "," + flag + "," + currentSeconds;
+        String sign = md5.encrypt(info);
+
+        String message[] = new String[6];
+        message[0] = "G2G";
+        message[1] = String.valueOf(user_id);
+        message[2] = String.valueOf(locker_id);
+        message[3] = String.valueOf(flag);
+        message[4] = String.valueOf(currentSeconds);
+        message[5] = sign;
+
+
+        String ret = String.join(",",message) + "*";
+//        System.out.println(currentTime);
+//        System.out.println(currentSeconds);
+//        System.out.println(ret);
+        return String.join(",",message) + "*";
 
     }
 
