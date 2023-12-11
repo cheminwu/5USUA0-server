@@ -31,4 +31,8 @@ public class UserInfoService {
     public List<UserInfo> list(Map map){
         return userInfoMapper.find(map);
     }
+
+    public Integer count(Map map){
+        return userInfoMapper.count(map);
+    }
 }

@@ -1,67 +1,59 @@
 package tue.student.iot.group18.module;
 
 public class UserInfo {
-    private Integer userId;
-    private String FirstName;
-    private String LastName;
+    private Integer User_id;
+    private String First_name;
+    private String Last_Name;
     private String Email;
-    private String SerialNumber;
-    private String passwordSHA;
+    private String Serial_number;
+    private String password_SHA;
 
 
-    public UserInfo(String firstName, String lastName, String email, String serialNumber, String passwordSHA) {
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Email = email;
-        this.SerialNumber = serialNumber;
-        this.passwordSHA = passwordSHA;
+    public Integer getUser_id() {
+        return User_id;
     }
 
-    public Integer getUserId () {
-        return userId;
+    public void setUser_id(Integer user_id) {
+        User_id = user_id;
     }
 
-    public String getFirstName() {
-        return FirstName;
+    public String getFirst_name() {
+        return First_name;
     }
- 
-    public String getLastName() {
-        return LastName;
+
+    public void setFirst_name(String first_name) {
+        First_name = first_name;
+    }
+
+    public String getLast_Name() {
+        return Last_Name;
+    }
+
+    public void setLast_Name(String last_Name) {
+        Last_Name = last_Name;
     }
 
     public String getEmail() {
         return Email;
     }
 
-    public String getSerialNumber() {
-        return SerialNumber;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public void setFirstName(String FirstName) {
-        this.FirstName = FirstName;
-    }
-
-    public void setLastName(String lastName) {
-        LastName = lastName;
-    }
-
     public void setEmail(String email) {
         Email = email;
     }
 
-    public void setSerialNumber(String serialNumber) {
-        SerialNumber = serialNumber;
+    public String getSerial_number() {
+        return Serial_number;
     }
 
-    public String getPasswordSHA() {
-        return passwordSHA;
+    public void setSerial_number(String serial_number) {
+        Serial_number = serial_number;
     }
 
-    public void setPasswordSHA(String passwordSHA) {
-        this.passwordSHA = passwordSHA;
+    public String getPassword_SHA() {
+        return password_SHA;
+    }
+
+    public void setPassword_SHA(String password_SHA) {
+        this.password_SHA = password_SHA;
     }
 }

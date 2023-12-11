@@ -6,13 +6,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import tue.student.iot.group18.gym2go.Util;
 import tue.student.iot.group18.module.Demo;
+import tue.student.iot.group18.module.Request;
 import tue.student.iot.group18.module.UserInfo;
 import tue.student.iot.group18.service.DemoService;
 import tue.student.iot.group18.service.MD5;
+import tue.student.iot.group18.service.RequestService;
 import tue.student.iot.group18.service.UserInfoService;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,9 @@ public class DemoController {
 
     @Autowired
     UserInfoService userInfoService;
+
+    @Autowired
+    RequestService requestService;
 
     final Map response_0 = new HashMap();
 
@@ -87,22 +93,39 @@ public class DemoController {
             @RequestParam Integer user_id, @RequestParam Integer locker_id, @RequestParam Integer flag) {
 
         long currentSeconds = Math.round(((double)Util.currentTime())/1000);
-        String info = user_id + "," + locker_id.toString() + "," + flag + "," + currentSeconds;
+
+//        System.out.println(currentTime);
+//        System.out.println(currentSeconds);
+//        System.out.println(ret);
+        Request request = new Request();
+        request.setUser_id(user_id);
+        request.setLocker_id(locker_id);
+        request.setFlag(flag);
+//        request.setQrcode(ret);
+        request.setDatetime(new Date());
+
+        requestService.save(request);
+
+        String info = request.getId() + "," + locker_id.toString() + "," + flag + "," + currentSeconds;
         String sign = md5.encrypt(info);
+
+
 
         String message[] = new String[6];
         message[0] = "G2G";
-        message[1] = String.valueOf(user_id);
+        message[1] = String.valueOf(request.getId());
         message[2] = String.valueOf(locker_id);
         message[3] = String.valueOf(flag);
         message[4] = String.valueOf(currentSeconds);
         message[5] = sign;
 
-
         String ret = String.join(",",message) + "*";
-//        System.out.println(currentTime);
-//        System.out.println(currentSeconds);
-//        System.out.println(ret);
+
+        Request request2 = new Request();
+        request2.setId(request.getId());
+        request2.setQrcode(ret);
+        requestService.update(request2);
+
         return String.join(",",message) + "*";
 
     }
@@ -119,6 +142,26 @@ public class DemoController {
 
         return returnStr;
 
+    }
+
+
+
+    @PostMapping(
+            value = "/unlock.post",
+            consumes = "application/json",
+            produces = "application/json")
+    @ResponseBody
+    public String unlock(@RequestBody Map params) {
+        Object id = params.get("transactionId");
+        Object state = params.get("state");
+
+        Request request = new Request();
+        request.setId((Integer)id);
+        request.setState((Integer)state);
+        request.setUnlocktime(new Date());
+
+        requestService.update(request);
+        return "0";
     }
 
 
@@ -161,7 +204,15 @@ public class DemoController {
         if(users != null && users.size() > 0){
             return "-1";
         }else{
-            userInfoService.save(new UserInfo((String)firstName, (String)lastName, (String)email, (String)serialNumber, (String)passwordSHA));
+
+
+            UserInfo userInfo = new UserInfo();
+            userInfo.setFirst_name((String)firstName);
+            userInfo.setLast_Name((String)lastName);
+            userInfo.setEmail((String)email);
+            userInfo.setSerial_number((String)serialNumber);
+            userInfo.setPassword_SHA((String)passwordSHA);
+            userInfoService.save(userInfo);
             System.out.println("info was delivered");
             return "0";
         }

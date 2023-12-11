@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="tue.student.iot.group18.dao.RequestMapper">
+    <resultMap id="RequestMap" type="tue.student.iot.group18.module.Request">
+        <id column="id" property="id"/>
+        <result column="user_id" property="user_id"/>
+        <result column="serialnumber" property="serialnumber"/>
+        <result column="firstname" property="firstname"/>
+        <result column="lastname" property="lastname"/>
+        <result column="locker_id" property="locker_id"/>
+        <result column="flag" property="flag"/>
+        <result column="datetime" property="datetime"/>
+        <result column="qrcode" property="qrcode"/>
+
+        <result column="state" property="state"/>
+        <result column="unlocktime" property="unlocktime"/>
+    </resultMap>
+
+    <select id="find" parameterType="String" resultMap="RequestMap">
+        SELECT a.id,a.state,a.unlocktime,b.user_id,b.Serial_number as serialnumber,b.First_Name as firstname,b.Last_Name as lastname,a.locker_id,a.flag,a.datetime,a.qrcode
+        FROM request a,user_info b
+        WHERE a.user_id = b.User_id
+        <if test="serialnumber != null">AND b.Serial_number = #{serialnumber}</if>
+        <if test="firstname != null">AND b.First_Name = #{firstName}</if>
+        <if test="lastname != null">AND b.Last_Name = #{lastName}</if>
+        <if test="locker_id != null">AND a.locker_id = #{locker_id}</if>
+        <if test="flag != null">AND a.flag = #{flag}</if>
+
+        order by datetime desc
+
+    </select>
+
+
+    <select id="count" parameterType="String" resultType="Integer">
+        SELECT count(1)
+        FROM request a,user_info b
+        WHERE a.user_id = b.User_id
+        <if test="serialnumber != null">AND b.Serial_number = #{serialnumber}</if>
+        <if test="firstname != null">AND b.First_Name = #{firstName}</if>
+        <if test="lastname != null">AND b.Last_Name = #{lastName}</if>
+        <if test="locker_id != null">AND a.locker_id = #{locker_id}</if>
+        <if test="flag != null">AND a.flag = #{flag}</if>
+    </select>
+
+    <insert id="save" parameterType="tue.student.iot.group18.module.Request" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO request(user_id,locker_id,flag,datetime,qrcode)
+        VALUES (#{user_id},#{locker_id},#{flag},#{datetime},#{qrcode})
+    </insert>
+
+    <update id="update" parameterType="tue.student.iot.group18.module.Request">
+        UPDATE request
+        <set>
+            <if test="state != null">state = #{state},</if>
+            <if test="unlocktime != null">unlocktime = #{unlocktime},</if>
+            <if test="qrcode != null">qrcode = #{qrcode},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

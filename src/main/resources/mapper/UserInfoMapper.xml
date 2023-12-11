@@ -3,12 +3,12 @@
 
 <mapper namespace="tue.student.iot.group18.dao.UserInfoMapper">
     <resultMap id="UserInfoMap" type="tue.student.iot.group18.module.UserInfo">
-        <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="firstName" property="First_name" jdbcType="VARCHAR" />
-        <result column="lastName" property="Last_name" jdbcType="VARCHAR" />
-        <result column="email" property="Email" jdbcType="VARCHAR" />
-        <result column="serialNumber" property="Serial_number" jdbcType="VARCHAR" />
-        <result column="passwordSHA" property="password_SHA" jdbcType="VARCHAR" />
+        <id column="User_id" property="User_id" jdbcType="INTEGER" />
+        <result column="First_name" property="First_name" jdbcType="VARCHAR" />
+        <result column="Last_Name" property="Last_Name" jdbcType="VARCHAR" />
+        <result column="Email" property="Email" jdbcType="VARCHAR" />
+        <result column="Serial_number" property="Serial_number" jdbcType="VARCHAR" />
+        <result column="password_SHA" property="password_SHA" jdbcType="VARCHAR" />
     </resultMap>
 
     <select id="find" parameterType="String" resultMap="UserInfoMap">
@@ -19,8 +19,16 @@
         <if test="passwordSHA != null">AND password_SHA = #{passwordSHA}</if>
     </select>
 
+    <select id="count" parameterType="String" resultType="Integer">
+        SELECT count(1)
+        FROM user_info
+        WHERE 1 = 1
+        <if test="serialNumber != null">AND Serial_number = #{SerialNumber}</if>
+        <if test="passwordSHA != null">AND password_SHA = #{passwordSHA}</if>
+    </select>
+
     <insert id="save" parameterType="tue.student.iot.group18.module.UserInfo">
-        INSERT INTO user_info(First_name, Last_name,Email,Serial_number, password_SHA)
+        INSERT INTO user_info(First_name, Last_Name,Email,Serial_Number, password_SHA)
         VALUES (#{FirstName}, #{LastName}, #{Email}, #{SerialNumber}, #{passwordSHA})
     </insert>
 

@@ -17,4 +17,5 @@ public interface UserInfoMapper {
     void update(UserInfo userInfo);
 
     List<UserInfo> find(Map map);
+    Integer count(Map map);
 }

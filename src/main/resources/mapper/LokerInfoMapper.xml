@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="tue.student.iot.group18.dao.LockerInfoMapper">
+    <resultMap id="LockerInfoMap" type="tue.student.iot.group18.module.LockerInfo">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="Location" property="Location" jdbcType="VARCHAR" />
+        <result column="Status" property="Status" jdbcType="INTEGER" />
+        <result column="item" property="item" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="find" parameterType="String" resultMap="LockerInfoMap">
+        SELECT *
+        FROM locker_info
+        WHERE 1 = 1
+        <if test="item != null">AND item = #{SerialNumber}</if>
+    </select>
+
+    <select id="count" parameterType="String" resultType="Integer">
+        SELECT count(1)
+        FROM user_info
+        WHERE 1 = 1
+        <if test="item != null">AND item = #{SerialNumber}</if>
+    </select>
+
+    <insert id="save" parameterType="tue.student.iot.group18.module.LockerInfo">
+        INSERT INTO locker_info(Location, Status,item)
+        VALUES (#{Location}, #{Status}, #{item})
+    </insert>
+
+<!--    <select id="get" parameterType="String" resultMap="DemoMap">-->
+<!--        select *-->
+<!--        FROM demo-->
+<!--        WHERE code = #{code}-->
+<!--    </select>-->
+
+<!--    <update id="update" parameterType="tue.student.iot.group18.module.Demo">-->
+<!--        UPDATE demo-->
+<!--        SET flag = #{flag}-->
+<!--        WHERE code = #{code}-->
+<!--    </update>-->
+</mapper>

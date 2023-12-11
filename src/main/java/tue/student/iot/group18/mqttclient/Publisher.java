@@ -27,8 +27,8 @@ public class Publisher {
     public void test() {
         try{
             IMqttClient publisher = Client.getClient();
-            MqttMessage message = new MqttMessage("hello2".getBytes());
-            publisher.publish("test", message);
+//            MqttMessage message = new MqttMessage("hello2".getBytes());
+//            publisher.publish("test", message);
         }catch (Exception e){
             e.printStackTrace();
         }
