@@ -45,7 +45,7 @@ public class AdminController {
     @CrossOrigin(methods = RequestMethod.GET)
     @GetMapping(
             value = "/request_list.get",
-            produces = "application/json")
+            produces = "application/javascript")
     @ResponseBody
     public String request_list(
             @RequestParam(required = false) Integer offset,
@@ -77,7 +77,7 @@ public class AdminController {
     @CrossOrigin(methods = RequestMethod.GET)
     @GetMapping(
             value = "/user_list.get",
-            produces = "application/json")
+            produces = "application/javascript")
     @ResponseBody
     public String user_list(
             @RequestParam(required = false) Integer offset,
@@ -106,7 +106,7 @@ public class AdminController {
     @CrossOrigin(methods = RequestMethod.GET)
     @GetMapping(
             value = "/locker_list.get",
-            produces = "application/json")
+            produces = "application/javascript")
     @ResponseBody
     public String locker_list(
             @RequestParam(required = false) Integer offset,

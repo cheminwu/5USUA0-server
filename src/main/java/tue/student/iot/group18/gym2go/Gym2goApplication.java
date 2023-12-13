@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 
@@ -14,6 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         "tue.student.iot.group18.controller",
 })
 @MapperScan("tue.student.iot.group18.dao")
+@Import(SecurityConfig.class)
 @SpringBootApplication
 public class Gym2goApplication {
 
