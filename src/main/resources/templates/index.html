@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Gym2go project</title>
+<!--    <script src="asset/jquery-ui.min.js" type="text/javascript"></script>-->
+<!--    <script src="asset/sweetalert.min.js" type="text/javascript"></script>-->
+<!--    <script src="asset/cookie.min.js"></script>-->
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+    </script>
+
+    <!-- Include the JavaScript file
+    for Bootstrap table -->
+    <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
+<!--    <script src="asset/cookie.min.js"></script>-->
+
+    <style>
+        body {
+            padding-top: 56px; /* Adjust this value based on your navbar height */
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding-top: 0;
+            }
+        }
+    </style>
+</head>
+<!--<link href="css/layout.css" rel="stylesheet"/>-->
+<!--<link href="asset/bootstrap/bootstrap.min.css" rel="stylesheet"/>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+
+<!-- Include the Bootstrap Table CSS
+for the table -->
+<link href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css" rel="stylesheet"/>
+
+<!--<link href="asset/jquery-ui.css" rel="stylesheet"/>-->
+<body style="height: 100vh;">
+    <div class="container-fluid h-100">
+        <div class="row p-3 bg-light text-center align-items-center col-sm-12" style="height: 100%;">
+            <div class="row p-3 bg-light text-center align-items-center col-sm-12" style="height: 100%;">
+                <div class="row p-3 bg-info text-center align-items-center col-sm-12" style="height: 10%;">
+
+
+                    <div class="col-sm-2">
+
+                        <div class="dropdown">
+                            <button class="btn text-warning dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                Menu
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#" onclick="getRequestHistory()">User History</a>
+                                <a class="dropdown-item" href="#" onclick="getUserList()">Users</a>
+                                <a class="dropdown-item" href="#" onclick="getLockerList()">Lockers</a>
+                                <a class="dropdown-item" href="#">Reports</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-4">
+                        <h1>
+                            <font class="text-light resizable-lg">Gym2go Admin Platform</font>
+                        </h1>
+                    </div>
+                    <div class="col-sm-4">
+                        <h3><span id="username"></span></h3>
+                    </div>
+                    <div class="col-sm-2">
+                        <h3><a href="/iot/logout" class="badge badge-danger">Logout</a></h3>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-light row col-sm-12" style="height: 80%;">
+                    <div id="request_div"  style = "display:none;width:inherit;">
+                        <h1>User History</h1>
+                        <table id="request_table" class="table-striped border-success" data-show-refresh="true" data-show-button-text="true"
+                               data-show-columns="true" data-icons-prefix="icon"
+                               data-icons="icons">
+                            <thead>
+                            <tr>
+                                <th data-field="id">
+                                  <span class="text-success">
+                                    ID
+                                  </span>
+                                </th>
+                                <th data-field="serialnumber">
+                                  <span class="text-success">
+                                    User Account
+                                  </span>
+                                </th>
+                                <th data-field="firstname">
+                                  <span class="text-success">
+                                    First Name
+                                  </span>
+                                </th>
+                                <th data-field="lastname">
+                                  <span class="text-success">
+                                    First Name
+                                  </span>
+                                </th>
+                                <th data-field="locker_id">
+                                  <span class="text-success">
+                                    Locker ID
+                                  </span>
+                                </th>
+                                <th data-field="flag" data-formatter="formatter1">
+                                  <span class="text-success">
+                                    Type
+                                  </span>
+                                </th>
+                                <th data-field="datetime">
+                                  <span class="text-success">
+                                    QR Code Time
+                                  </span>
+                                </th>
+                                <th data-field="state" data-formatter="formatter2">
+                                  <span class="text-success">
+                                    State
+                                  </span>
+                                </th>
+                                <th data-field="unlocktime">
+                                  <span class="text-success">
+                                      Unlock Time
+                                  </span>
+                                </th>
+                                <th data-field="qrcode">
+                                  <span class="text-success">
+                                    QR code
+                                  </span>
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                     </div>
+
+                    <div id="user_div"  style = "display:none;width:inherit;">
+                        <h1>User Information</h1>
+                        <table id="user_table" class="table-striped border-success" data-show-refresh="true" data-show-button-text="true">
+                            <thead>
+                            <tr>
+                                <th data-field="user_id">
+                                  <span class="text-success">
+                                      ID
+                                  </span>
+                                </th>
+                                <th data-field="serial_number">
+                                  <span class="text-success">
+                                    User Account
+                                  </span>
+                                </th>
+                                <th data-field="first_name">
+                                  <span class="text-success">
+                                    First Name
+                                  </span>
+                                </th>
+                                <th data-field="last_Name">
+                                  <span class="text-success">
+                                    Last Name
+                                  </span>
+                                </th>
+                                <th data-field="email">
+                                  <span class="text-success">
+                                    Email
+                                  </span>
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+
+                    <div id="locker_div"  style = "display:none;width:inherit;">
+                        <h1>Locker Information</h1>
+                        <table id="locker_table" class="table-striped border-success" data-show-refresh="true" data-show-button-text="true">
+                            <thead>
+                            <tr>
+                                <th data-field="id">
+                                  <span class="text-success">
+                                      ID
+                                  </span>
+                                </th>
+                                <th data-field="location">
+                                  <span class="text-success">
+                                    Location
+                                  </span>
+                                </th>
+                                <th data-field="status" data-formatter="formatter3">
+                                  <span class="text-success" >
+                                    state
+                                  </span>
+                                </th>
+                                <th data-field="item">
+                                  <span class="text-success">
+                                    Item
+                                  </span>
+                                </th>
+<!--                                <th data-field="id">-->
+<!--                                  <span class="text-success">-->
+<!--                                    <button>Deactivate</button>-->
+<!--                                  </span>-->
+<!--                                </th>-->
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="p-3 bg-info row col-sm-12" style="height: 10%;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<!--<script src="static/js/initial.js" type="text/javascript"></script>-->
+
+<script type="text/javascript">
+
+    function getRequestHistory(){
+        $('#request_div').css("display","");
+        $('#request_div').css("width","inherit");
+        $('#user_div').css("display","none");
+        $('#locker_div').css("display","none");
+        $('#request_table').bootstrapTable({
+            sidePagination:'server',
+            pagination:true,
+            pageNumber:1,
+            pageSize:5,
+            queryParams:function(params) {
+                // params.action="getlist";
+                // params.catalogId=0;
+                return params; },
+            url: "http://localhost:211/iot/admin/request_list.get",
+        });
+    }
+
+
+    function formatter1(value,row,index){
+        return value==0 ? 'RENT' : 'RETURN';
+
+    }
+
+    function formatter2(value,row,index){
+        return value==0 ? '' : 'UNLOCKED';
+
+    }
+
+
+    function formatter3(value,row,index){
+        return value==0 ? 'IDLE' : 'EMPTY';
+
+    }
+
+
+    function getUserList(){
+        $('#request_div').css("display","none");
+        $('#locker_div').css("display","none");
+        $('#user_div').css("display","");
+        $('#user_div').css("width","inherit");
+        $('#user_table').bootstrapTable({
+            sidePagination:'server',
+            showTotal: true,
+            pagination:true,
+            pageNumber:1,
+            pageSize:5,
+            prePageText: 'Prev', // the text of previous page button
+            nextPageText: 'Next', // the text of next page button
+            queryParams:function(params) {
+                // params.action="getlist";
+                // params.catalogId=0;
+                return params; },
+            url: "http://localhost:211/iot/admin/user_list.get",
+        });
+    }
+
+
+    function getLockerList(){
+        $('#request_div').css("display","none");
+        $('#user_div').css("display","none");
+        $('#locker_div').css("display","");
+        $('#locker_div').css("width","inherit");
+        $('#locker_table').bootstrapTable({
+            sidePagination:'server',
+            showTotal: true,
+            pagination:true,
+            pageNumber:1,
+            pageSize:5,
+            prePageText: 'Prev', // the text of previous page button
+            nextPageText: 'Next', // the text of next page button
+            queryParams:function(params) {
+                // params.action="getlist";
+                // params.catalogId=0;
+                return params; },
+            url: "http://localhost:211/iot/admin/locker_list.get",
+        });
+    }
+
+    function userInfo(){
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:211/iot/admin/username",
+            async: false,
+            success: function (data) {
+                if (data != undefined) {
+                    $('#username').html(data);
+                }
+            },
+            error: function (xhr) {
+            },
+        });
+    }
+
+    $(document).ready(function () {
+        getRequestHistory();
+        userInfo();
+        // Use the given data to create
+        // the table and display it
+
+    });
+</script>
+</html>
+
+
+<div class="toast-container"  style="position: absolute; bottom: 0; right: 0; width: 30%;">
+    <div id="myToast" class="toast" aria-live="assertive" aria-atomic="true" style="width: 100%;" data-bs-autohide="false">
+        <div class="toast-header row-sm-12">
+            <strong class="mr-auto col-sm-11"><font size="5px">Server connection Failed</font></strong>
+            <button type="button" class="btn-close bg-info col-sm-1" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body row-sm-12">
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade text-center" id="waitModal" tabindex="-1">
+    <div class="loadingModal">
+        <div class="modal-dialog modal-sm" style="display: inline-block; width: auto;">
+            <div class="spinner-grow text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-secondary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-success" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-danger" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-info" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-dark" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>

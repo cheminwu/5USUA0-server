@@ -10,6 +10,7 @@ import tue.student.iot.group18.module.Request;
 import tue.student.iot.group18.module.UserInfo;
 import tue.student.iot.group18.service.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,19 @@ public class AdminController {
 
 
     final Map response_0 = new HashMap();
+
+
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
+
+    @RequestMapping(value = "/username", method = RequestMethod.GET)
+    @ResponseBody
+    public String currentUserName(Principal principal) {
+        return principal.getName();
+    }
+
 
 
     @CrossOrigin(methods = RequestMethod.GET)
