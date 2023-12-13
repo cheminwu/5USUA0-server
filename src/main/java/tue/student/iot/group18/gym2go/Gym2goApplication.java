@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         "tue.student.iot.group18.controller",
 })
 @MapperScan("tue.student.iot.group18.dao")
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, GlobalCorsConfiguration.class})
 @SpringBootApplication
 public class Gym2goApplication {
 

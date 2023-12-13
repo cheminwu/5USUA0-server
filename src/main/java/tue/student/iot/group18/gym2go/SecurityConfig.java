@@ -1,5 +1,6 @@
 package tue.student.iot.group18.gym2go;
 
+import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import tue.student.iot.group18.service.SHAPasswordEncoder;
 import tue.student.iot.group18.service.UserInfoService;
 import tue.student.iot.group18.service.UserService;
@@ -34,6 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         });
         http.formLogin();
         http.httpBasic();
+        http.csrf().disable();
+        http.cors();
     }
 
     @Autowired

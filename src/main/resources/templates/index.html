@@ -241,7 +241,7 @@ for the table -->
                 // params.action="getlist";
                 // params.catalogId=0;
                 return params; },
-            url: "http://localhost:211/iot/admin/request_list.get",
+            url: "/iot/admin/request_list.get",
         });
     }
 
@@ -280,7 +280,7 @@ for the table -->
                 // params.action="getlist";
                 // params.catalogId=0;
                 return params; },
-            url: "http://localhost:211/iot/admin/user_list.get",
+            url: "/iot/admin/user_list.get",
         });
     }
 
@@ -302,14 +302,14 @@ for the table -->
                 // params.action="getlist";
                 // params.catalogId=0;
                 return params; },
-            url: "http://localhost:211/iot/admin/locker_list.get",
+            url: "/iot/admin/locker_list.get",
         });
     }
 
     function userInfo(){
         $.ajax({
             type: "GET",
-            url: "http://localhost:211/iot/admin/username",
+            url: "/iot/admin/username",
             async: false,
             success: function (data) {
                 if (data != undefined) {
