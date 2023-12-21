@@ -23,6 +23,9 @@ public class UserService implements UserDetailsService {
         if(userInfo == null){
             throw new UsernameNotFoundException(s);
         }
+        if(!("ADMIN".equals(userInfo.getRole()) || "ROOT".equals(userInfo.getRole()))){
+            throw new UsernameNotFoundException(s);
+        }
         User user = new User();
         user.setUserInfo(userInfo);
         return user;

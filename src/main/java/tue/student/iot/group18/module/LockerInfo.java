@@ -7,6 +7,8 @@ public class LockerInfo {
     private Integer Status;
     private String item;
 
+    private Integer user;
+
     public Integer getId() {
         return id;
     }
@@ -37,5 +39,13 @@ public class LockerInfo {
 
     public void setItem(String item) {
         this.item = item;
+    }
+
+    public Integer getUser() {
+        return user;
+    }
+
+    public void setUser(Integer user) {
+        this.user = user;
     }
 }

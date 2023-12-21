@@ -7,6 +7,7 @@
         <result column="Location" property="Location" jdbcType="VARCHAR" />
         <result column="Status" property="Status" jdbcType="INTEGER" />
         <result column="item" property="item" jdbcType="VARCHAR" />
+        <result column="user" property="user" jdbcType="INTEGER" />
     </resultMap>
 
     <select id="find" parameterType="String" resultMap="LockerInfoMap">
@@ -34,9 +35,12 @@
 <!--        WHERE code = #{code}-->
 <!--    </select>-->
 
-<!--    <update id="update" parameterType="tue.student.iot.group18.module.Demo">-->
-<!--        UPDATE demo-->
-<!--        SET flag = #{flag}-->
-<!--        WHERE code = #{code}-->
-<!--    </update>-->
+    <update id="update" parameterType="tue.student.iot.group18.module.LockerInfo">
+        UPDATE locker_info
+        <set>
+            <if test="user != null">user = #{user},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
 </mapper>

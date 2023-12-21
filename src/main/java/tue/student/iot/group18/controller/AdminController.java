@@ -71,11 +71,11 @@ public class AdminController {
             @RequestParam(required = false) Integer flag) {
 
         Map param = new HashMap();
-        param.put("serialnumber", serialnumber);
-        param.put("firstname", firstName);
-        param.put("lastname", lastName);
-        param.put("locker_id", lockerId);
-        param.put("flag", flag);
+//        param.put("serialnumber", serialnumber);
+//        param.put("firstname", firstName);
+//        param.put("lastname", lastName);
+//        param.put("locker_id", lockerId);
+//        param.put("flag", flag);
 
 
         PageHelper.offsetPage(offset, limit);

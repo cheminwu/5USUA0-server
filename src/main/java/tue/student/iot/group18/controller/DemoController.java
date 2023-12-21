@@ -6,12 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import tue.student.iot.group18.gym2go.Util;
 import tue.student.iot.group18.module.Demo;
+import tue.student.iot.group18.module.LockerInfo;
 import tue.student.iot.group18.module.Request;
 import tue.student.iot.group18.module.UserInfo;
-import tue.student.iot.group18.service.DemoService;
-import tue.student.iot.group18.service.MD5;
-import tue.student.iot.group18.service.RequestService;
-import tue.student.iot.group18.service.UserInfoService;
+import tue.student.iot.group18.service.*;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -39,6 +37,10 @@ public class DemoController {
 
     @Autowired
     RequestService requestService;
+
+
+    @Autowired
+    LockerInfoService lockerInfoService;
 
     final Map response_0 = new HashMap();
 
@@ -109,7 +111,7 @@ public class DemoController {
         String info = request.getId() + "," + locker_id.toString() + "," + flag + "," + currentSeconds;
         String sign = md5.encrypt(info);
 
-
+        System.out.println(info);
 
         String message[] = new String[6];
         message[0] = "G2G";
@@ -178,7 +180,8 @@ public class DemoController {
         map.put("passwordSHA", (String)passwordSHA);
         List<UserInfo> users = userInfoService.list(map);
         if(users != null && users.size() > 0){
-            return "0";
+            UserInfo userInfo = users.get(0);
+            return userInfo.getUser_id().toString();
         }else{
             return "-1";
         }
@@ -231,5 +234,28 @@ public class DemoController {
         demoService.save(new Demo((String)code, (String)flag));
         System.out.println("report was delivered");
         return JSON.toJSONString(response_0);
+    }
+
+
+    @GetMapping(
+            value = "/locker_list.get",
+            produces = "text/plain")
+    @ResponseBody
+    public String locker_list(
+            @RequestParam Integer user_id,
+            @RequestParam Integer flag,
+            @RequestParam Integer site) {
+        String responseStr =  "";
+        Map param = new HashMap();
+        if(flag == 0){
+        } else {
+            param.put("user", user_id);
+        }
+        List<LockerInfo> lockers =  lockerInfoService.list(param);
+        for(int i = 0;i< lockers.size();i++){
+            LockerInfo locker = lockers.get(i);
+            responseStr += locker.getId() + ", " + locker.getStatus() + ", " + locker.getItem() + "\t";
+        }
+        return responseStr.substring(0, responseStr.length() - 2);
     }
 }

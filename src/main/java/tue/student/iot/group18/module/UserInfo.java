@@ -7,7 +7,7 @@ public class UserInfo {
     private String Email;
     private String Serial_number;
     private String password_SHA;
-
+    private String role;
 
     public Integer getUser_id() {
         return User_id;
@@ -55,5 +55,13 @@ public class UserInfo {
 
     public void setPassword_SHA(String password_SHA) {
         this.password_SHA = password_SHA;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

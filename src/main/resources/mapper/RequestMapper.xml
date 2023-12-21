@@ -19,13 +19,14 @@
 
     <select id="find" parameterType="String" resultMap="RequestMap">
         SELECT a.id,a.state,a.unlocktime,b.user_id,b.Serial_number as serialnumber,b.First_Name as firstname,b.Last_Name as lastname,a.locker_id,a.flag,a.datetime,a.qrcode
-        FROM request a,user_info b
+        FROM request a
+           ,user_info b
         WHERE a.user_id = b.User_id
-        <if test="serialnumber != null">AND b.Serial_number = #{serialnumber}</if>
-        <if test="firstname != null">AND b.First_Name = #{firstName}</if>
-        <if test="lastname != null">AND b.Last_Name = #{lastName}</if>
-        <if test="locker_id != null">AND a.locker_id = #{locker_id}</if>
-        <if test="flag != null">AND a.flag = #{flag}</if>
+<!--        <if test="serialnumber != null">AND b.Serial_number = #{serialnumber}</if>-->
+<!--        <if test="firstname != null">AND b.First_Name = #{firstName}</if>-->
+<!--        <if test="lastname != null">AND b.Last_Name = #{lastName}</if>-->
+<!--        <if test="locker_id != null">AND a.locker_id = #{locker_id}</if>-->
+<!--        <if test="flag != null">AND a.flag = #{flag}</if>-->
 
         order by datetime desc
 
@@ -34,13 +35,14 @@
 
     <select id="count" parameterType="String" resultType="Integer">
         SELECT count(1)
-        FROM request a,user_info b
-        WHERE a.user_id = b.User_id
-        <if test="serialnumber != null">AND b.Serial_number = #{serialnumber}</if>
-        <if test="firstname != null">AND b.First_Name = #{firstName}</if>
-        <if test="lastname != null">AND b.Last_Name = #{lastName}</if>
-        <if test="locker_id != null">AND a.locker_id = #{locker_id}</if>
-        <if test="flag != null">AND a.flag = #{flag}</if>
+        FROM request a
+<!--             user_info b-->
+<!--        WHERE a.user_id = b.User_id-->
+<!--        <if test="serialnumber != null">AND b.Serial_number = #{serialnumber}</if>-->
+<!--        <if test="firstname != null">AND b.First_Name = #{firstName}</if>-->
+<!--        <if test="lastname != null">AND b.Last_Name = #{lastName}</if>-->
+<!--        <if test="locker_id != null">AND a.locker_id = #{locker_id}</if>-->
+<!--        <if test="flag != null">AND a.flag = #{flag}</if>-->
     </select>
 
     <insert id="save" parameterType="tue.student.iot.group18.module.Request" useGeneratedKeys="true" keyProperty="id">
