@@ -6,6 +6,8 @@ public class Request {
     private Integer id;
     private Integer user_id;
     private String serialnumber;
+
+    private String item;
     private String firstname;
     private String lastname;
     private Integer locker_id;
@@ -42,6 +44,14 @@ public class Request {
 
     public String getSerialnumber() {
         return serialnumber;
+    }
+
+    public String getItem() {
+        return item;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
     }
 
     public void setSerialnumber(String serialnumber) {

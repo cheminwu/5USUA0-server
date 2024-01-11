@@ -14,7 +14,8 @@
         SELECT *
         FROM locker_info
         WHERE 1 = 1
-        <if test="item != null">AND item = #{SerialNumber}</if>
+        <if test="user != null">AND user = #{user}</if>
+        <if test="Location != null">AND Location = #{Location}</if>
     </select>
 
     <select id="count" parameterType="String" resultType="Integer">

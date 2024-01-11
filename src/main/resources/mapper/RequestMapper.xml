@@ -6,6 +6,7 @@
         <id column="id" property="id"/>
         <result column="user_id" property="user_id"/>
         <result column="serialnumber" property="serialnumber"/>
+        <result column="item" property="item"/>
         <result column="firstname" property="firstname"/>
         <result column="lastname" property="lastname"/>
         <result column="locker_id" property="locker_id"/>
@@ -18,11 +19,12 @@
     </resultMap>
 
     <select id="find" parameterType="String" resultMap="RequestMap">
-        SELECT a.id,a.state,a.unlocktime,b.user_id,b.Serial_number as serialnumber,b.First_Name as firstname,b.Last_Name as lastname,a.locker_id,a.flag,a.datetime,a.qrcode
+        SELECT a.id,a.state,a.unlocktime,c.item, b.user_id,b.Serial_number as serialnumber,b.First_Name as firstname,b.Last_Name as lastname,a.locker_id,a.flag,a.datetime,a.qrcode
         FROM request a
-           ,user_info b
-        WHERE a.user_id = b.User_id
-<!--        <if test="serialnumber != null">AND b.Serial_number = #{serialnumber}</if>-->
+           ,user_info b, locker_info c
+        WHERE a.user_id = b.User_id and a.locker_id = c.id
+        <if test="userId != null">AND b.User_id = #{userId}</if>
+        <if test="unlocktimeIsNotNull != null">AND a.unlocktime is not Null</if>
 <!--        <if test="firstname != null">AND b.First_Name = #{firstName}</if>-->
 <!--        <if test="lastname != null">AND b.Last_Name = #{lastName}</if>-->
 <!--        <if test="locker_id != null">AND a.locker_id = #{locker_id}</if>-->

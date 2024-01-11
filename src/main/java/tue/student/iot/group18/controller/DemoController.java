@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import tue.student.iot.group18.gym2go.Util;
-import tue.student.iot.group18.module.Demo;
-import tue.student.iot.group18.module.LockerInfo;
-import tue.student.iot.group18.module.Request;
-import tue.student.iot.group18.module.UserInfo;
+import tue.student.iot.group18.module.*;
 import tue.student.iot.group18.service.*;
 
 import java.security.MessageDigest;
@@ -38,6 +35,9 @@ public class DemoController {
     @Autowired
     RequestService requestService;
 
+
+    @Autowired
+    LocationService locationService;
 
     @Autowired
     LockerInfoService lockerInfoService;
@@ -139,11 +139,17 @@ public class DemoController {
     @ResponseBody
     public String userHistory(
             @RequestParam Integer user_id) {
+        String responseStr = "";
+        Map param = new HashMap();
+        param.put("userId", user_id);
+        param.put("unlocktimeIsNotNull", "0");
 
-        String returnStr = "football,001,renting,2023-11-11 08:30,-|football,001,returned,2023-11-01 17:32,2023-11-08 13:32|football,001,returned,2023-10-01 17:32,2023-10-08 13:32";
-
-        return returnStr;
-
+        List<Request> requests = requestService.list(param);
+        for(int i = 0;i< requests.size();i++){
+            Request request = requests.get(i);
+            responseStr += request.getItem() + ", " + request.getUser_id() + ", " + (request.getFlag() == 0 ? "renting": "returned") + ", " + request.getUnlocktime() + "\t";
+        }
+        return responseStr.substring(0, responseStr.length() - 2);
     }
 
 
@@ -250,12 +256,41 @@ public class DemoController {
         if(flag == 0){
         } else {
             param.put("user", user_id);
+            param.put("Location", site);
         }
         List<LockerInfo> lockers =  lockerInfoService.list(param);
         for(int i = 0;i< lockers.size();i++){
             LockerInfo locker = lockers.get(i);
             responseStr += locker.getId() + ", " + locker.getStatus() + ", " + locker.getItem() + "\t";
         }
-        return responseStr.substring(0, responseStr.length() - 2);
+        if("".equals(responseStr)){
+            return responseStr.substring(0, responseStr.length() - 2);
+        }else{
+            return "";
+        }
+    }
+
+
+
+    @GetMapping(
+            value = "/location.get",
+            produces = "text/plain")
+    @ResponseBody
+    public String location(
+            @RequestParam Integer id) {
+        String responseStr =  "";
+
+        Location location = locationService.get(id);
+        String items = "";
+        for(int i = 0;i< location.getLockers().size();i++){
+            LockerInfo locker = location.getLockers().get(i);
+            items += locker.getItem() + ", ";
+        }
+        if(!"".equals(items)){
+            items = items.substring(0, items.length() - 2);
+        }
+
+        responseStr += location.getAddress() + ", " + items;
+        return responseStr;
     }
 }
