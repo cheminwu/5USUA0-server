@@ -30,4 +30,10 @@ public class RequestService {
     public void update(Request request){
         requestMapper.update(request);
     }
+
+    public Request get(Integer id){
+        return requestMapper.get(id);
+    }
+
+
 }

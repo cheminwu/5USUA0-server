@@ -10,6 +10,7 @@ import tue.student.iot.group18.service.*;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,22 @@ public class DemoController {
     LockerInfoService lockerInfoService;
 
     final Map response_0 = new HashMap();
+
+
+    Map translate = new HashMap(){
+        {
+            put("Football", "Voetbal");
+            put("Basketball", "Basketbal");
+            put("Volleyball", "Volleybal");
+            put("Hockey equipment", "Hockeyuitrusting");
+            put("Frisbee", "Frisbee");
+            put("Walking sticks", "Wandelstokken");
+            put("Dog toys", "Hondenspeelgoed");
+
+            put("renting", "huren");
+            put("returned", "teruggekeerd");
+        }
+    };
 
 
     @PostMapping(
@@ -138,7 +155,9 @@ public class DemoController {
             produces = "text/plain")
     @ResponseBody
     public String userHistory(
-            @RequestParam Integer user_id) {
+            @RequestParam Integer user_id, @RequestParam Integer dutch) {
+
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
         String responseStr = "";
         Map param = new HashMap();
         param.put("userId", user_id);
@@ -147,9 +166,14 @@ public class DemoController {
         List<Request> requests = requestService.list(param);
         for(int i = 0;i< requests.size();i++){
             Request request = requests.get(i);
-            responseStr += request.getItem() + ", " + request.getUser_id() + ", " + (request.getFlag() == 0 ? "renting": "returned") + ", " + request.getUnlocktime() + "\t";
+            if(dutch == 0){
+                responseStr += request.getItem() + ", " + request.getLocker_id() + ", " + (request.getFlag() == 0 ? "renting": "returned") + ", " + format.format(request.getUnlocktime()) + "\t";
+            }else{
+                responseStr += translate.get(request.getItem()) + ", " + request.getLocker_id() + ", " + translate.get((request.getFlag() == 0 ? "renting": "returned")) + ", " + format.format(request.getUnlocktime()) + "\t";
+            }
+
         }
-        return responseStr.substring(0, responseStr.length() - 2);
+        return responseStr.substring(0, responseStr.length() - 1);
     }
 
 
@@ -250,7 +274,8 @@ public class DemoController {
     public String locker_list(
             @RequestParam Integer user_id,
             @RequestParam Integer flag,
-            @RequestParam Integer site) {
+            @RequestParam Integer site,
+            @RequestParam Integer dutch) {
         String responseStr =  "";
         Map param = new HashMap();
         if(flag == 0){
@@ -261,10 +286,15 @@ public class DemoController {
         List<LockerInfo> lockers =  lockerInfoService.list(param);
         for(int i = 0;i< lockers.size();i++){
             LockerInfo locker = lockers.get(i);
-            responseStr += locker.getId() + ", " + locker.getStatus() + ", " + locker.getItem() + "\t";
+
+            if(dutch == 0){
+                responseStr += locker.getId() + ", " + locker.getStatus() + ", " + locker.getItem() + "\t";
+            }else{
+                responseStr += locker.getId() + ", " + locker.getStatus() + ", " + translate.get(locker.getItem()) + "\t";
+            }
         }
-        if("".equals(responseStr)){
-            return responseStr.substring(0, responseStr.length() - 2);
+        if(!"".equals(responseStr)){
+            return responseStr.substring(0, responseStr.length() - 1);
         }else{
             return "";
         }
@@ -277,20 +307,24 @@ public class DemoController {
             produces = "text/plain")
     @ResponseBody
     public String location(
-            @RequestParam Integer id) {
+            @RequestParam Integer id, @RequestParam Integer dutch) {
         String responseStr =  "";
 
         Location location = locationService.get(id);
         String items = "";
         for(int i = 0;i< location.getLockers().size();i++){
             LockerInfo locker = location.getLockers().get(i);
-            items += locker.getItem() + ", ";
+            if(dutch==0){
+                items += locker.getItem() + ", ";
+            }else{
+                items += translate.get(locker.getItem()) + ", ";
+            }
         }
         if(!"".equals(items)){
             items = items.substring(0, items.length() - 2);
         }
 
-        responseStr += location.getAddress() + ", " + items;
+        responseStr += location.getAddress() + "| " + items;
         return responseStr;
     }
 }

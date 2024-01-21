@@ -187,7 +187,7 @@ for the table -->
                                       ID
                                   </span>
                                 </th>
-                                <th data-field="location">
+                                <th data-field="address">
                                   <span class="text-success">
                                     Location
                                   </span>
@@ -202,11 +202,11 @@ for the table -->
                                     Item
                                   </span>
                                 </th>
-<!--                                <th data-field="id">-->
-<!--                                  <span class="text-success">-->
-<!--                                    <button>Deactivate</button>-->
-<!--                                  </span>-->
-<!--                                </th>-->
+                                <th data-field="name">
+                                  <span class="text-success">
+                                    User
+                                  </span>
+                                </th>
                             </tr>
                             </thead>
                         </table>
@@ -258,8 +258,7 @@ for the table -->
 
 
     function formatter3(value,row,index){
-        return value==0 ? 'IDLE' : 'EMPTY';
-
+        return value==0 ? 'DEACTIVATED' : (value==1 ? "IDLE" : "OCCUPIED");
     }
 
 

@@ -16,4 +16,7 @@ public interface RequestMapper {
     Integer count(Map map);
 
     void update(Request request);
+
+
+    Request get(Integer id);
 }

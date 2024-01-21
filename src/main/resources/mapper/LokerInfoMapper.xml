@@ -4,25 +4,30 @@
 <mapper namespace="tue.student.iot.group18.dao.LockerInfoMapper">
     <resultMap id="LockerInfoMap" type="tue.student.iot.group18.module.LockerInfo">
         <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="Location" property="Location" jdbcType="VARCHAR" />
+        <result column="Location" property="Location" jdbcType="INTEGER" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
         <result column="Status" property="Status" jdbcType="INTEGER" />
         <result column="item" property="item" jdbcType="VARCHAR" />
         <result column="user" property="user" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
     </resultMap>
 
-    <select id="find" parameterType="String" resultMap="LockerInfoMap">
-        SELECT *
-        FROM locker_info
-        WHERE 1 = 1
+    <select id="find" parameterType="int" resultMap="LockerInfoMap">
+        SELECT a.id,a.Location,b.address, a.Status, a.item, a.user, c.Serial_number as name
+        FROM locker_info a
+        left join location b on Location = b.id
+        left join user_info c on a.user = c.User_id
+        WHERE 1=1
         <if test="user != null">AND user = #{user}</if>
         <if test="Location != null">AND Location = #{Location}</if>
     </select>
 
     <select id="count" parameterType="String" resultType="Integer">
         SELECT count(1)
-        FROM user_info
+        FROM locker_info
         WHERE 1 = 1
-        <if test="item != null">AND item = #{SerialNumber}</if>
+        <if test="user != null">AND user = #{user}</if>
+        <if test="Location != null">AND Location = #{Location}</if>
     </select>
 
     <insert id="save" parameterType="tue.student.iot.group18.module.LockerInfo">
@@ -40,6 +45,7 @@
         UPDATE locker_info
         <set>
             <if test="user != null">user = #{user},</if>
+            <if test="user == null">user = NULL,</if>
             <if test="status != null">status = #{status},</if>
         </set>
         WHERE id = #{id}

@@ -3,11 +3,15 @@ package tue.student.iot.group18.module;
 public class LockerInfo {
 
     private Integer id;
-    private String Location;
+    private Integer Location;
+
+    private String address;
     private Integer Status;
     private String item;
 
     private Integer user;
+
+    private String name;
 
     public Integer getId() {
         return id;
@@ -17,11 +21,11 @@ public class LockerInfo {
         this.id = id;
     }
 
-    public String getLocation() {
+    public Integer getLocation() {
         return Location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Integer location) {
         Location = location;
     }
 
@@ -47,5 +51,22 @@ public class LockerInfo {
 
     public void setUser(Integer user) {
         this.user = user;
+    }
+
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
